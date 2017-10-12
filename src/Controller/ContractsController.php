@@ -1,38 +1,111 @@
 <?php
 namespace App\Controller;
-use App\Controller\AppController;
-use Cake\Event\Event;
 
+use App\Controller\AppController;
+
+/**
+ * Contracts Controller
+ *
+ * @property \App\Model\Table\ContractsTable $Contracts
+ *
+ * @method \App\Model\Entity\Contract[] paginate($object = null, array $settings = [])
+ */
 class ContractsController extends AppController
 {
+
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|void
+     */
     public function index()
     {
-//        $this->loadModel('Contracts');
-        $this->paginate = [
-            'limit' => 10
-        ];
-        $contracts = $this->Contracts->find('all');
-        $this->set('contracts', $this->paginate($contracts));
-        debug($contracts);
-    }
+        $contracts = $this->paginate($this->Contracts);
 
-    public function view($id)
-    {
-        $contracts = $this->Contracts->get($id);
         $this->set(compact('contracts'));
+        $this->set('_serialize', ['contracts']);
     }
 
+    /**
+     * View method
+     *
+     * @param string|null $id Contract id.
+     * @return \Cake\Http\Response|void
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($id = null)
+    {
+        $contract = $this->Contracts->get($id, [
+            'contain' => []
+        ]);
+
+        $this->set('contract', $contract);
+        $this->set('_serialize', ['contract']);
+    }
+
+    /**
+     * Add method
+     *
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
+     */
     public function add()
     {
-        $contracts = $this->Contracts->newEntity();
+        $contract = $this->Contracts->newEntity();
         if ($this->request->is('post')) {
-            $contracts = $this->Contracts->patchEntity($contracts, $this->request->getData());
-            if ($this->Contracts->save($contracts)) {
-                $this->Flash->success(__('The user has been saved.'));
-                return $this->redirect(['action' => 'add']);
+            $contract = $this->Contracts->patchEntity($contract, $this->request->getData());
+            if ($this->Contracts->save($contract)) {
+                $this->Flash->success(__('The contract has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Unable to add the user.'));
+            $this->Flash->error(__('The contract could not be saved. Please, try again.'));
         }
-        $this->set('contracts', $contracts);
+        $this->set(compact('contract'));
+        $this->set('_serialize', ['contract']);
+    }
+
+    /**
+     * Edit method
+     *
+     * @param string|null $id Contract id.
+     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Network\Exception\NotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $contract = $this->Contracts->get($id, [
+            'contain' => []
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $contract = $this->Contracts->patchEntity($contract, $this->request->getData());
+            if ($this->Contracts->save($contract)) {
+                $this->Flash->success(__('The contract has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The contract could not be saved. Please, try again.'));
+        }
+        $this->set(compact('contract'));
+        $this->set('_serialize', ['contract']);
+    }
+
+    /**
+     * Delete method
+     *
+     * @param string|null $id Contract id.
+     * @return \Cake\Http\Response|null Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id = null)
+    {
+        $this->request->allowMethod(['post', 'delete']);
+        $contract = $this->Contracts->get($id);
+        if ($this->Contracts->delete($contract)) {
+            $this->Flash->success(__('The contract has been deleted.'));
+        } else {
+            $this->Flash->error(__('The contract could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
     }
 }
