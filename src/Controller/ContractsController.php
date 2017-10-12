@@ -1,7 +1,36 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Duong Nhai
- * Date: 10/11/2017
- * Time: 2:33 PM
- */
+namespace App\Controller;
+use App\Controller\AppController;
+use Cake\Event\Event;
+
+class ContractsController extends AppController
+{
+    public function index()
+    {
+        $this->paginate = [
+            'limit' => 10
+        ];
+        $contracts = $this->Contracts->find('all');
+        $this->set('contracts', $this->paginate($contracts));
+    }
+
+    public function view($id)
+    {
+        $contracts = $this->Contracts->get($id);
+        $this->set(compact('contracts'));
+    }
+
+    public function add()
+    {
+        $contracts = $this->Contracts->newEntity();
+        if ($this->request->is('post')) {
+            $contracts = $this->Contracts->patchEntity($contracts, $this->request->getData());
+            if ($this->Contracts->save($contracts)) {
+                $this->Flash->success(__('The user has been saved.'));
+                return $this->redirect(['action' => 'add']);
+            }
+            $this->Flash->error(__('Unable to add the user.'));
+        }
+        $this->set('user', $contracts);
+    }
+}
