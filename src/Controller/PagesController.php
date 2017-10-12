@@ -66,4 +66,7 @@ class PagesController extends AppController
             throw new NotFoundException();
         }
     }
+    public function index(){
+        $this->viewBuilder()->setLayout('default_bootstrap');
+    }
 }
