@@ -9,7 +9,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+    <a class="navbar-brand" href="index.html">Funtap</a>
 </div>
 <!-- /.navbar-header -->
 
@@ -237,6 +237,21 @@
                 </div>
                 <!-- /input-group -->
             </li>
+            <li>
+                <a href="#"><i class="fa fa-calendar-o" aria-hidden="true"></i> Hợp đồng<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><?php echo $this->Html->link(
+                            'Trình ký hợp đồng',
+                            ['controller' => 'contracts', 'action' => 'index', '_full' => true]
+                        );?>
+                    </li>
+                    <li>
+                        <a href="morris.html">Tạm ứng</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+
             <li>
                 <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
