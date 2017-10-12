@@ -7,11 +7,13 @@ class ContractsController extends AppController
 {
     public function index()
     {
+//        $this->loadModel('Contracts');
         $this->paginate = [
             'limit' => 10
         ];
         $contracts = $this->Contracts->find('all');
         $this->set('contracts', $this->paginate($contracts));
+        debug($contracts);
     }
 
     public function view($id)
@@ -31,6 +33,6 @@ class ContractsController extends AppController
             }
             $this->Flash->error(__('Unable to add the user.'));
         }
-        $this->set('user', $contracts);
+        $this->set('contracts', $contracts);
     }
 }
