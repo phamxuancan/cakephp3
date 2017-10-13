@@ -37,6 +37,7 @@ class BillsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        
     }
 
     /**
