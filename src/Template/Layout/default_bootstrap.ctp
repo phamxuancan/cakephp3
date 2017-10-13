@@ -7,8 +7,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
-    <?php $webroot = '/webroot/admin'; ?>
+    <title>Funtap</title>
+    <?php $webroot = '/cakephp3/webroot/admin'; ?>
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo $webroot ?>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo $webroot ?>/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
